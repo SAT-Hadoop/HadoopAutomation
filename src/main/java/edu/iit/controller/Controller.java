@@ -5,8 +5,14 @@
  */
 package edu.iit.controller;
 
+import edu.iit.doa.DOA;
+import edu.iit.message.Data;
+import edu.iit.model.User_Jobs;
+import edu.iit.s3bucket.S3Bucket;
+import edu.iit.scheduler.Scheduler;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -93,7 +99,31 @@ public class Controller extends HttpServlet {
                 System.out.println(request.getParameter("email"));
                 System.out.println(request.getParameter("optionnode"));
                 System.out.println(request.getParameter("optionjob"));
-                session.setAttribute("message", message);
+                session.setAttribute("message", message);   
+                Data data1 = new Data();
+                
+                String userid = "sai";
+                S3Bucket s3input = new S3Bucket();
+                s3input.setBucketname("sai");
+                s3input.createBucket();
+                S3Bucket s3output = new S3Bucket();
+                s3output.setBucketname("sai");
+                s3output.createBucket();
+                DOA doa = new DOA();
+                
+                //  Adding job to the database
+                User_Jobs userjob = new User_Jobs();
+                userjob.setInputurl(s3input.getBucketName());
+                userjob.setOutputurl(s3output.getBucketName());
+                userjob.setUserid("sai");
+                userjob.setJobstatus("INITIAL");
+                String randomId = UUID.randomUUID().toString();
+                userjob.setJobid(randomId);
+                doa.addJob(userjob);
+                
+                //
+                data1.setId(randomId);
+                Scheduler.submitJob(data1);
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
                 //out.write("Sai is awesome");
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
