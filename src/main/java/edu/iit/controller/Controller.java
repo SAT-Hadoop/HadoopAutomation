@@ -6,10 +6,10 @@
 package edu.iit.controller;
 
 import edu.iit.doa.DOA;
-import edu.iit.message.Data;
 import edu.iit.model.User_Jobs;
 import edu.iit.s3bucket.S3Bucket;
 import edu.iit.scheduler.Scheduler;
+import edu.iit.sqs.SendQueue;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
@@ -96,19 +96,18 @@ public class Controller extends HttpServlet {
         switch(path){
             case "/app/submitjob":
                 String message = "Your Job is submitted, you will be emailed once completed";
-                System.out.println(request.getParameter("email"));
-                System.out.println(request.getParameter("optionnode"));
-                System.out.println(request.getParameter("optionjob"));
+                String nodes = request.getParameter("optionnode");
+                String jobname = request.getParameter("optionjob");
                 session.setAttribute("message", message);   
-                Data data1 = new Data();
+
                 
                 String userid = "sai";
                 S3Bucket s3input = new S3Bucket();
                 s3input.setBucketname("sai");
-                s3input.createBucket();
+                //s3input.createBucket();
                 S3Bucket s3output = new S3Bucket();
                 s3output.setBucketname("sai");
-                s3output.createBucket();
+                //s3output.createBucket();
                 DOA doa = new DOA();
                 
                 //  Adding job to the database
@@ -117,13 +116,14 @@ public class Controller extends HttpServlet {
                 userjob.setOutputurl(s3output.getBucketName());
                 userjob.setUserid("sai");
                 userjob.setJobstatus("INITIAL");
+                userjob.setNodes(nodes);
+                userjob.setJobname(jobname);
                 String randomId = UUID.randomUUID().toString();
                 userjob.setJobid(randomId);
+                System.out.println(userjob.toString());
                 doa.addJob(userjob);
-                
-                //
-                data1.setId(randomId);
-                Scheduler.submitJob(data1);
+                SendQueue sendqueue = new SendQueue();
+                sendqueue.sendMessage(randomId);
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
                 //out.write("Sai is awesome");
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
