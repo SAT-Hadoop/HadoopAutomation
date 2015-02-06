@@ -19,7 +19,7 @@
         <div class="container" style="font-size: 20px">
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
             <p> <c:out value="${message}"/></p>
-            <form id="upload" action="app/submitjob" method="POST" enctype="multipart/form-data">
+            <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
 
                 <div class="form-group">
                     <label for="email">Email address:</label>
@@ -38,19 +38,48 @@
                     <option value="wordcount">WordCount</option>
                     <option value="marketbasket">Marketbasket</option>
                 </select><br>
-                <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
-
-                <label for="fileselect">Files to upload:</label>
-                <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-                <div id="filedrag">or drop files here</div>
-
+                Available data sets: <select name="filetoprocess">
+                    <c:forEach items="${files}" var="file">
+                        <option value="${file}">
+                            ${f}
+                        </option>
+                    </c:forEach>
+                </select>
                 <button type="submit">Submit</button>
             </form>
 
+            <hr>
+            <p> Use the form to upload new files </p>
+            <form id="upload" action="${pageContext.request.contextPath}/app/uploadfile" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+
+                <label for="fileselect">Files to upload:</label>
+                <input type="file" id="fileselect" name="fileName" multiple="multiple"/>
+                <div id="filedrag">or drop files here</div>
+
+                <button type="submit">Submit</button>
+
+            </form>
             <div id="messages">
                 <p>Status Messages</p>
             </div>
+            <hr>
+            <p> Use the form to delete files </p>
+            <form method="GET" action="${pageContext.request.contextPath}/app/deletefile">
+                Available data sets: <select name="filetodelete">
+                    <c:forEach items="${files}" var="file">
+                        <option value="${file}">
+                            ${f}
+                        </option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="Delete">
+            </form>
+            
         </div>
+
+
+
         <script src="js/filedrag.js"></script>
     </body>
 </html>
