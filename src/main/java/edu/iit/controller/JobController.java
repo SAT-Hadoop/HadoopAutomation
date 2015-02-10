@@ -76,10 +76,14 @@ public class JobController extends HttpServlet {
         System.out.println("from getr" + request.getServletPath());
         String path = request.getRequestURI().substring(request.getContextPath().length());
         System.out.println("path is" + path);
+        HttpSession session = request.getSession();
         switch (path) {
 
-            case "/":
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+            case "/app/index":
+                Walrus walrus = new Walrus();
+                System.out.println("awesome sai" + walrus.getObjects("hadoopimage").toString());
+                session.setAttribute("datasets", walrus.getObjects("hadoopimage"));
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
         }
 
