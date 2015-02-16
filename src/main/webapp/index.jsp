@@ -18,13 +18,13 @@
     <body>
         <div class="container" style="font-size: 20px">
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
-            <p> <c:out value="${requestScope.message}"/></p>
+            <p> <c:out value="${message}"/></p>
             <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label for="email">Email address:</label>
                     <input type="email" name="email" class="form-control" id="email"/>
-                </div>
+                </div>-->
                 <label for="SelectNodes">Select Number of Nodes:</label>
                 <select class="form-control" name="optionnode">
                     <option value="Two">2</option>
@@ -65,7 +65,7 @@
             </div>
             <hr>
             <p> Use the form to delete files </p>
-            <form method="GET" action="${pageContext.request.contextPath}/app/deletefile">
+            <form method="POST" action="${pageContext.request.contextPath}/app/deletefile">
                 Available data sets: <select name="filetodelete">
                     <c:forEach items="${datasets}" var="file">
                         <option value="${file}">

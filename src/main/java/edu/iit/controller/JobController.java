@@ -34,6 +34,8 @@ import javax.servlet.http.Part;
 @MultipartConfig()
 public class JobController extends HttpServlet {
 
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -73,6 +75,8 @@ public class JobController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        Walrus walrus = new Walrus();
+        PrintWriter out = response.getWriter();
         System.out.println("from getr" + request.getServletPath());
         String path = request.getRequestURI().substring(request.getContextPath().length());
         System.out.println("path is" + path);
@@ -80,11 +84,14 @@ public class JobController extends HttpServlet {
         switch (path) {
 
             case "/app/index":
-                Walrus walrus = new Walrus();
                 System.out.println("awesome sai" + walrus.getObjects("hadoopimage").toString());
                 session.setAttribute("datasets", walrus.getObjects("hadoopimage"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
+            default:
+                out.write("Page not found");
+                break;
+            
         }
 
     }
@@ -100,7 +107,7 @@ public class JobController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        Walrus walrus = new Walrus();
         PrintWriter out = response.getWriter();
         String path = request.getRequestURI().substring(request.getContextPath().length());
         System.out.println("path is" + path);
@@ -126,32 +133,27 @@ public class JobController extends HttpServlet {
                     }
                 }
 
-                Walrus walrus = new Walrus();
                 walrus.createBucket("sat-hadoop");
                 for (int i=0 ; i<filepaths.size();i++)
                     walrus.putObject("sat-hadoop", (String) filepaths.get(i));
                 session.setAttribute("message", "Upload has been done successfully!");
+                request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
             case "/app/submitjob":
                 String message = "Your Job is submitted, you will be emailed once completed";
                 String nodes = request.getParameter("optionnode");
                 String jobname = request.getParameter("optionjob");
+                String dataset = request.getParameter("datasets");
                 session.setAttribute("message", message);
 
-                String userid = "sai";
-                S3Bucket s3input = new S3Bucket();
-                s3input.setBucketname("sai");
-                //s3input.createBucket();
-                S3Bucket s3output = new S3Bucket();
-                s3output.setBucketname("sai");
                 //s3output.createBucket();
                 DOA doa = new DOA();
 
                 //  Adding job to the database
                 User_Jobs userjob = new User_Jobs();
-                userjob.setInputurl(s3input.getBucketName());
-                userjob.setOutputurl(s3output.getBucketName());
+                userjob.setInputurl(dataset);
+                userjob.setOutputurl("");
                 userjob.setUserid("sai");
                 userjob.setJobstatus("INITIAL");
                 userjob.setNodes(nodes);
@@ -162,10 +164,20 @@ public class JobController extends HttpServlet {
                 doa.addJob(userjob);
                 SendQueue sendqueue = new SendQueue();
                 sendqueue.sendMessage(randomId);
+                
+                request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
                 //out.write("Sai is awesome");
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 //request.getRequestDispatcher("/index.jsp").forward(request, response);
+                break;
+                
+            case "/app/deletefile":
+                String filename = request.getParameter("filetodelete");
+                walrus.delObject("sat-hadoop", filename);
+                session.setAttribute("message", "successfully deleted");
+                session.setAttribute("datasets", walrus.getObjects("hadoopimage"));
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
             default:
                 out.write("Page not found");
