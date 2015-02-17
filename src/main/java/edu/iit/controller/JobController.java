@@ -127,7 +127,7 @@ public class JobController extends HttpServlet {
                     }
 
 
-                    fileName = fileName.trim();
+                    fileName = fileName.replaceAll("\\s","");
                     File file = new File("/tmp/"+fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
 
                     try  {
