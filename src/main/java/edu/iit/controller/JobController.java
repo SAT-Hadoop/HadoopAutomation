@@ -121,6 +121,7 @@ public class JobController extends HttpServlet {
                 for (Part part : request.getParts()) {
 
                     String fileName = extractFileName(part);
+                    System.out.println("The file name is "+ fileName);
                     if (fileName.isEmpty()) {
                         continue;
                     }
