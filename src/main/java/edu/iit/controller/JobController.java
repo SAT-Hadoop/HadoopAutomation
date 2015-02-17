@@ -133,6 +133,9 @@ public class JobController extends HttpServlet {
                         walrus.putObject("sat-hadoop", file.getAbsolutePath());
                         //filepaths.add(file.toPath());
                     }
+                    catch(Exception e){
+                        System.out.println("File already present");
+                    }
                 }
 
                 //walrus.createBucket("sat-hadoop");
