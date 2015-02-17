@@ -84,8 +84,8 @@ public class JobController extends HttpServlet {
         switch (path) {
 
             case "/app/index":
-                System.out.println("awesome sai" + walrus.getObjects("hadoopimage").toString());
-                session.setAttribute("datasets", walrus.getObjects("hadoopimage"));
+                System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
+                session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
             default:
@@ -135,7 +135,7 @@ public class JobController extends HttpServlet {
 
                 walrus.createBucket("sat-hadoop");
                 for (int i=0 ; i<filepaths.size();i++)
-                    walrus.putObject("sat-hadoop", (String) filepaths.get(i));
+                    walrus.putObject("sat-hadoop", filepaths.get(i).toString());
                 session.setAttribute("message", "Upload has been done successfully!");
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
@@ -176,7 +176,7 @@ public class JobController extends HttpServlet {
                 String filename = request.getParameter("filetodelete");
                 walrus.delObject("sat-hadoop", filename);
                 session.setAttribute("message", "successfully deleted");
-                session.setAttribute("datasets", walrus.getObjects("hadoopimage"));
+                session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
             default:
