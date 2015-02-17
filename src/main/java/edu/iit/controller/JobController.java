@@ -128,7 +128,8 @@ public class JobController extends HttpServlet {
 
                     File file = new File("/tmp/"+fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
 
-                    try (InputStream input = part.getInputStream()) {
+                    try  {
+                        InputStream input = part.getInputStream();
                         Files.copy(input, file.toPath()); // How to obtain part is answered in http://stackoverflow.com/a/2424824
                         walrus.putObject("sat-hadoop", file.getAbsolutePath());
                         //filepaths.add(file.toPath());
