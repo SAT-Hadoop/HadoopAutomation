@@ -117,6 +117,7 @@ public class JobController extends HttpServlet {
             case "/app/uploadfile":
                 List filepaths = new ArrayList();
                 // constructs path of the directory to save uploaded file
+                walrus.createBucket("sat-hadoop");
                 for (Part part : request.getParts()) {
 
                     String fileName = extractFileName(part);
@@ -129,13 +130,14 @@ public class JobController extends HttpServlet {
 
                     try (InputStream input = part.getInputStream()) {
                         Files.copy(input, file.toPath()); // How to obtain part is answered in http://stackoverflow.com/a/2424824
-                        filepaths.add(file.toPath());
+                        walrus.putObject("sat-hadoop", file.getAbsolutePath());
+                        //filepaths.add(file.toPath());
                     }
                 }
 
-                walrus.createBucket("sat-hadoop");
-                for (int i=0 ; i<filepaths.size();i++)
-                    walrus.putObject("sat-hadoop", filepaths.get(i).toString());
+                //walrus.createBucket("sat-hadoop");
+                //for (int i=0 ; i<filepaths.size();i++)
+                  //  walrus.putObject("sat-hadoop", filepaths.get(i).toString());
                 session.setAttribute("message", "Upload has been done successfully!");
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
