@@ -126,7 +126,8 @@ public class JobController extends HttpServlet {
                     }
 
 
-                    File file = new File("/tmp/"+fileName.trim()); // Or File#createTempFile() if you want to autogenerate an unique name.
+                    fileName = fileName.trim();
+                    File file = new File("/tmp/"+fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
 
                     try  {
                         InputStream input = part.getInputStream();
