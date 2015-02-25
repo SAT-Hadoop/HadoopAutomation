@@ -12,13 +12,16 @@ import edu.iit.scheduler.Scheduler;
 import edu.iit.sqs.SendQueue;
 import edu.iit.walrus.Walrus;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -34,8 +37,6 @@ import javax.servlet.http.Part;
 @MultipartConfig()
 public class JobController extends HttpServlet {
 
-    
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,7 +77,7 @@ public class JobController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Walrus walrus = new Walrus();
-        PrintWriter out = response.getWriter();
+        //
         System.out.println("from getr" + request.getServletPath());
         String path = request.getRequestURI().substring(request.getContextPath().length());
         System.out.println("path is" + path);
@@ -86,12 +87,58 @@ public class JobController extends HttpServlet {
             case "/app/index":
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
+                
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
+
+            case "/app/downloadfile":
+                String filePath = "/tmp/"+request.getParameter("filetodownload");
+                walrus.downloadObject("sat-hadoop", request.getParameter("filetodownload"));
+                File downloadFile = new File(filePath);
+                FileInputStream inStream = new FileInputStream(downloadFile);
+
+                // if you want to use a relative path to context root:
+                String relativePath = getServletContext().getRealPath("");
+                System.out.println("relativePath = " + relativePath);
+
+                // obtains ServletContext
+                ServletContext context = getServletContext();
+
+                // gets MIME type of the file
+                String mimeType = context.getMimeType(filePath);
+                if (mimeType == null) {
+                    // set to binary type if MIME mapping not found
+                    mimeType = "application/octet-stream";
+                }
+                System.out.println("MIME type: " + mimeType);
+
+                // modifies response
+                response.setContentType(mimeType);
+                response.setContentLength((int) downloadFile.length());
+
+                // forces download
+                String headerKey = "Content-Disposition";
+                String headerValue = String.format("attachment; filename=\"%s\"", downloadFile.getName());
+                response.setHeader(headerKey, headerValue);
+
+                // obtains response's output stream
+                OutputStream outStream = response.getOutputStream();
+
+                byte[] buffer = new byte[4096];
+                int bytesRead = -1;
+
+                while ((bytesRead = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, bytesRead);
+                }
+
+                inStream.close();
+                outStream.close();
+                break;
             default:
+                PrintWriter out = response.getWriter();
                 out.write("Page not found");
                 break;
-            
+
         }
 
     }
@@ -121,29 +168,27 @@ public class JobController extends HttpServlet {
                 for (Part part : request.getParts()) {
 
                     String fileName = extractFileName(part);
-                    System.out.println("The file name is "+ fileName);
+                    System.out.println("The file name is " + fileName);
                     if (fileName.isEmpty()) {
                         continue;
                     }
 
+                    fileName = fileName.replaceAll("\\s", "");
+                    File file = new File("/tmp/" + fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
 
-                    fileName = fileName.replaceAll("\\s","");
-                    File file = new File("/tmp/"+fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
-
-                    try  {
+                    try {
                         InputStream input = part.getInputStream();
                         Files.copy(input, file.toPath()); // How to obtain part is answered in http://stackoverflow.com/a/2424824
                         walrus.putObject("sat-hadoop", file.getAbsolutePath());
                         //filepaths.add(file.toPath());
-                    }
-                    catch(Exception e){
+                    } catch (Exception e) {
                         System.out.println("File already present");
                     }
                 }
 
                 //walrus.createBucket("sat-hadoop");
                 //for (int i=0 ; i<filepaths.size();i++)
-                  //  walrus.putObject("sat-hadoop", filepaths.get(i).toString());
+                //  walrus.putObject("sat-hadoop", filepaths.get(i).toString());
                 session.setAttribute("message", "Upload has been done successfully!");
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
@@ -172,14 +217,14 @@ public class JobController extends HttpServlet {
                 doa.addJob(userjob);
                 SendQueue sendqueue = new SendQueue();
                 sendqueue.sendMessage(randomId);
-                
+
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
                 //out.write("Sai is awesome");
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
                 //request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
-                
+
             case "/app/deletefile":
                 String filename = request.getParameter("filetodelete");
                 walrus.delObject("sat-hadoop", filename);

@@ -75,6 +75,19 @@
                 </select>
                 <input type="submit" value="Delete">
             </form>
+                
+                <hr>
+            <p> Use the form to download files </p>
+            <form method="GET" action="${pageContext.request.contextPath}/app/downloadfile">
+                Available data sets: <select name="filetodownload">
+                    <c:forEach items="${datasets}" var="file">
+                        <option value="${file}">
+                            ${file}
+                        </option>
+                    </c:forEach>
+                </select>
+                <input type="submit" value="Download">
+            </form>
             
         </div>
 
