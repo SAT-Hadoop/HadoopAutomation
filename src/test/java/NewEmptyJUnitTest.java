@@ -8,6 +8,7 @@ import edu.iit.model.User_Jobs;
 import java.util.UUID;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -21,7 +22,7 @@ public class NewEmptyJUnitTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-    @Test
+    @Test @Ignore
     public void hello() {
     
         DOA d = new DOA();
