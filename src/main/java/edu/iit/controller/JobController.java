@@ -84,7 +84,7 @@ public class JobController extends HttpServlet {
         HttpSession session = request.getSession();
         switch (path) {
 
-            case "/":
+            case "/app/index":
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 
