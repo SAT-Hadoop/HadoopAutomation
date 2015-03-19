@@ -17,6 +17,7 @@
     </head>
     <body>
         <div class="container" style="font-size: 20px">
+            <p><b>Click here to Logout </b> <a href="https://mydev107.iit.edu/cas/logout" title="Click here to log out"> Logout!!</a></p>
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
             <p> <c:out value="${message}"/></p>
             <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
