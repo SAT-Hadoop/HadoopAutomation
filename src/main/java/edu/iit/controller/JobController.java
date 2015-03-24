@@ -18,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -85,6 +86,8 @@ public class JobController extends HttpServlet {
         switch (path) {
 
             case "/app/index":
+                Principal emailid = request.getUserPrincipal();
+                System.out.println("The principal is "+request.getUserPrincipal());
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 
@@ -238,7 +241,6 @@ public class JobController extends HttpServlet {
 
         }
     }
-
     /**
      * Returns a short description of the servlet.
      *
