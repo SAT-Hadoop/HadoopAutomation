@@ -91,7 +91,7 @@ public class JobController extends HttpServlet {
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
                 break;
 
             case "/app/downloadfile":
@@ -194,7 +194,7 @@ public class JobController extends HttpServlet {
                 //  walrus.putObject("sat-hadoop", filepaths.get(i).toString());
                 session.setAttribute("message", "Upload has been done successfully!");
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
                 break;
             case "/app/submitjob":
                 String message = "Your Job is submitted, you will be emailed once completed";
@@ -224,7 +224,7 @@ public class JobController extends HttpServlet {
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
                 //out.write("Sai is awesome");
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
                 //request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
 
@@ -233,7 +233,7 @@ public class JobController extends HttpServlet {
                 walrus.delObject("sat-hadoop", filename);
                 session.setAttribute("message", "successfully deleted");
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
                 break;
             default:
                 out.write("Page not found");
