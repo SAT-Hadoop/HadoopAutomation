@@ -13,7 +13,7 @@
         <meta charset="UTF-8" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.1/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link rel="stylesheet" type="text/css" media="all" href="css/styles.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="/css/styles.css" />
     </head>
     <body>
         <div class="container" style="font-size: 20px">
@@ -94,6 +94,6 @@
 
 
 
-        <script src="js/filedrag.js"></script>
+        <script src="/js/filedrag.js"></script>
     </body>
 </html>

@@ -90,8 +90,8 @@ public class JobController extends HttpServlet {
                 System.out.println("The principal is "+request.getUserPrincipal());
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                
-                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                ///response.sendRedirect(request.getContextPath() + "/app/index.jsp");
                 break;
 
             case "/app/downloadfile":
@@ -194,7 +194,7 @@ public class JobController extends HttpServlet {
                 //  walrus.putObject("sat-hadoop", filepaths.get(i).toString());
                 session.setAttribute("message", "Upload has been done successfully!");
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 break;
             case "/app/submitjob":
                 String message = "Your Job is submitted, you will be emailed once completed";
@@ -224,7 +224,7 @@ public class JobController extends HttpServlet {
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
                 //out.write("Sai is awesome");
-                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 //request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
 
@@ -233,7 +233,7 @@ public class JobController extends HttpServlet {
                 walrus.delObject("sat-hadoop", filename);
                 session.setAttribute("message", "successfully deleted");
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                response.sendRedirect(request.getContextPath() + "/app/index.jsp");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 break;
             default:
                 out.write("Page not found");
