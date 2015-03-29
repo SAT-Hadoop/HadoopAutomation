@@ -48,15 +48,15 @@
     </filter>
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/app/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS Validation Filter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/app/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/app/*</url-pattern>
     </filter-mapping>
     <session-config>
         <session-timeout>
