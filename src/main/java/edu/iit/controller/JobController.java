@@ -90,8 +90,9 @@ public class JobController extends HttpServlet {
                 System.out.println("The principal is "+request.getUserPrincipal());
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                //request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-                response.sendRedirect(request.getContextPath() + "/WEB_INF/index.jsp");
+                session.setAttribute("emailid", "supadyay@hawk.iit.edu");
+                request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                //response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
 
             case "/app/downloadfile":
