@@ -208,7 +208,12 @@ public class JobController extends HttpServlet {
                 DOA doa = new DOA();
 
                 //  Adding job to the database
+                
                 User_Jobs userjob = new User_Jobs();
+                if ( doa.getJobs((String) session.getAttribute("email")) > 3){
+                    session.setAttribute("message", "Too many job submitted, please contact admin if this doesnot change in 1 hr");
+                    request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
+                }
                 userjob.setInputurl(dataset);
                 userjob.setOutputurl("");
                 userjob.setUserid("sai");
