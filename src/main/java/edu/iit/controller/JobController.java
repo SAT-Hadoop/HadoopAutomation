@@ -20,7 +20,9 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -30,6 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
+import org.jasig.cas.client.authentication.AttributePrincipal;
 
 /**
  *
@@ -87,16 +90,38 @@ public class JobController extends HttpServlet {
 
             case "/app/index":
                 Principal emailid = request.getUserPrincipal();
-                System.out.println("The principal is "+request.getUserPrincipal());
+                System.out.println("The principal is " + request.getUserPrincipal());
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                session.setAttribute("emailid", "supadyay@hawk.iit.edu");
+                session.setAttribute("emailid", emailid);
+                if (request.getUserPrincipal() != null) {
+                    AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
+
+                    final Map attributes = principal.getAttributes();
+
+                    if (attributes != null) {
+                        Iterator attributeNames = attributes.keySet().iterator();
+
+                        if (attributeNames.hasNext()) {
+
+                            for (; attributeNames.hasNext();) {
+
+                                String attributeName = (String) attributeNames.next();
+                                final Object attributeValue = attributes.get(attributeName);
+                                System.out.println(attributeName + " " + attributeValue);
+
+                            }
+                        } else {
+                            System.out.println("No mor attributes");
+                        }
+                    }
+                }
                 request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 //response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
 
             case "/app/downloadfile":
-                String filePath = "/tmp/"+request.getParameter("filetodownload");
+                String filePath = "/tmp/" + request.getParameter("filetodownload");
                 walrus.downloadObject("sat-hadoop", request.getParameter("filetodownload"));
                 File downloadFile = new File(filePath);
                 FileInputStream inStream = new FileInputStream(downloadFile);
@@ -212,9 +237,8 @@ public class JobController extends HttpServlet {
                 DOA doa = new DOA();
 
                 //  Adding job to the database
-                
                 User_Jobs userjob = new User_Jobs();
-                if ( doa.getJobs((String) session.getAttribute("email")) > 3){
+                if (doa.getJobs((String) session.getAttribute("email")) > 3) {
                     session.setAttribute("message", "Too many job submitted, please contact admin if this doesnot change in 1 hr");
                     request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 }
@@ -251,6 +275,7 @@ public class JobController extends HttpServlet {
 
         }
     }
+
     /**
      * Returns a short description of the servlet.
      *
