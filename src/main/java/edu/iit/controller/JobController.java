@@ -163,7 +163,7 @@ public class JobController extends HttpServlet {
                 inStream.close();
                 outStream.close();
                 break;
-            case "/app/logout/":
+            case "/app/logout":
                 session.invalidate();
                 response.sendRedirect("https://mydev107.iit.edu/cas/logout");
                 break;
