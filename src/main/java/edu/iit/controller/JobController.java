@@ -138,6 +138,10 @@ public class JobController extends HttpServlet {
                 inStream.close();
                 outStream.close();
                 break;
+            case "/app/logout/":
+                session.invalidate();
+                response.sendRedirect("https://mydev107.iit.edu/cas/logout");
+                break;
             default:
                 PrintWriter out = response.getWriter();
                 out.write("Page not found");
@@ -216,7 +220,7 @@ public class JobController extends HttpServlet {
                 }
                 userjob.setInputurl(dataset);
                 userjob.setOutputurl("");
-                userjob.setUserid("sai");
+                userjob.setUserid((String) session.getAttribute("emailid"));
                 userjob.setJobstatus("INITIAL");
                 userjob.setNodes(nodes);
                 userjob.setJobname(jobname);
