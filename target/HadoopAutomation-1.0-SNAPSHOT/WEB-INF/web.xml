@@ -34,7 +34,8 @@
         <filter-name>CAS Validation Filter</filter-name>
         <!--<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilte
         r</filter-class>-->
-        <filter-class>org.jasig.cas.client.validation.Cas10TicketValidationFilter</filter-class>
+        <!--<filter-class>org.jasig.cas.client.validation.Cas10TicketValidationFilter</filter-class>-->
+        <filter-class>org.jasig.cas.client.validation.Saml11TicketValidationFilter</filter-class>
         <init-param>
             <param-name>redirectAfterValidation</param-name>
             <param-value>false</param-value>
