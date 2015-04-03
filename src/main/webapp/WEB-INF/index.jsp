@@ -17,10 +17,10 @@
     </head>
     <body>
         <div class="container" style="font-size: 20px">
-            <p>Authenticated user id is : <%= request.getRemoteUser() %></p>
+            <!--<p>Authenticated user id is : <%= request.getRemoteUser() %></p>
     <P>User ID is available via the following variables : <p>
     <p>request.getRemoteUser()  : <%= request.getRemoteUser() %> <p>
-    <p>request.getUserPrincipal() : <%= request.getUserPrincipal() %> <p></p>
+    <p>request.getUserPrincipal() : <%= request.getUserPrincipal() %> <p></p>-->
             <p><b>Click here to Logout </b> <a href="${pageContext.request.contextPath}/app/logout" title="Click here to log out"> Logout!!</a></p>
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
             <p> <c:out value="${message}"/></p>
