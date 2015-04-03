@@ -14,11 +14,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
+     
     <dependencies>
             <dependency>
 			<groupId>org.opensaml</groupId>
 			<artifactId>opensaml1</artifactId>
 			<version>1.1</version>
+                            <exclusions>
+            <exclusion>
+                <groupId>com.sun.jmx</groupId>
+                <artifactId>jmxri</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>com.sun.jdmk</groupId>
+                <artifactId>jmxtools</artifactId>
+            </exclusion>
+            <exclusion>
+                <groupId>javax.jms</groupId>
+                <artifactId>jms</artifactId>
+            </exclusion>
+        </exclusions>
+   
 		</dependency>
 		<!--<dependency>
 			<groupId>org.apache.santuario</groupId>
