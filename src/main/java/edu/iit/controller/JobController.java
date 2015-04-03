@@ -93,7 +93,7 @@ public class JobController extends HttpServlet {
                 System.out.println("The principal is " + request.getUserPrincipal());
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
-                session.setAttribute("emailid", emailid);
+                
                 if (request.getUserPrincipal() != null) {
                     AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
 
@@ -108,6 +108,9 @@ public class JobController extends HttpServlet {
 
                                 String attributeName = (String) attributeNames.next();
                                 final Object attributeValue = attributes.get(attributeName);
+                                if (attributeName.equals("email")){
+                                    session.setAttribute("emailid", attributeValue);
+                                }
                                 System.out.println(attributeName + " " + attributeValue);
 
                             }
@@ -116,6 +119,12 @@ public class JobController extends HttpServlet {
                         }
                     }
                 }
+                if (session.getAttribute("email") == ""){
+                    PrintWriter out = response.getWriter();
+                    out.write("CAS is down please contact the sys admin");
+                    break;
+                }
+                        
                 request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 //response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
@@ -164,7 +173,7 @@ public class JobController extends HttpServlet {
                 outStream.close();
                 break;
             case "/app/logout":
-                session.invalidate();
+                //session.invalidate();
                 response.sendRedirect("https://mydev107.iit.edu/cas/logout");
                 break;
             default:
