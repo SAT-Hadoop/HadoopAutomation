@@ -21,7 +21,7 @@
     <P>User ID is available via the following variables : <p>
     <p>request.getRemoteUser()  : <%= request.getRemoteUser() %> <p>
     <p>request.getUserPrincipal() : <%= request.getUserPrincipal() %> <p></p>-->
-            <p><b>Click here to Logout </b> <a href="${pageContext.request.contextPath}/app/logout" title="Click here to log out"> Logout!!</a></p>
+            <p><b>Click here to Logout </b> <a href="https://mydev107.iit.edu/cas/logout"> Logout!!</a></p>
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
             <p> <c:out value="${message}"/></p>
             <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
@@ -32,11 +32,11 @@
                 </div>-->
                 <label for="SelectNodes">Select Number of Nodes:</label>
                 <select class="form-control" name="optionnode">
-                    <option value="Two">2</option>
-                    <option value="Four">4</option>
-                    <option value="Eight">8</option>
-                    <option value="Sixteen">16</option>
-                    <option value="Thirtytwo">32</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="16">16</option>
+                    <option value="32">32</option>
                 </select><br>
                 <label for="SelectJob">Select type of Job:</label>
                 <select class="form-control" name="optionjob">
