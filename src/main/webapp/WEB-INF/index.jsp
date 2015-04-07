@@ -21,7 +21,7 @@
     <P>User ID is available via the following variables : <p>
     <p>request.getRemoteUser()  : <%= request.getRemoteUser() %> <p>
     <p>request.getUserPrincipal() : <%= request.getUserPrincipal() %> <p></p>-->
-            <p><b>Click here to Logout </b> <a href="https://mydev107.iit.edu/cas/logout"> Logout!!</a></p>
+            <p><b>Click here to Logout </b> <a href="https://my107.iit.edu/cas/logout"> Logout!!</a></p>
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
             <p> <c:out value="${message}"/></p>
             <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
