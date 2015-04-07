@@ -108,9 +108,17 @@ public class JobController extends HttpServlet {
 
                                 String attributeName = (String) attributeNames.next();
                                 final Object attributeValue = attributes.get(attributeName);
-                                if (attributeName.equals("email")){
-                                    session.setAttribute("emailid", attributeValue);
+                                if (attributeName.equals("member")){
+                                    if (((String)attributeValue).contains("Employees")){
+                                        session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
+                                    }
+                                    if (((String)attributeValue).contains("Students")){
+                                        session.setAttribute("emailid", request.getUserPrincipal()+"@hawk.iit.edu");
+                                    }
                                 }
+                                /*if (attributeName.equals("email")){
+                                    session.setAttribute("emailid", attributeValue);
+                                }*/
                                 System.out.println(attributeName + " " + attributeValue);
 
                             }
