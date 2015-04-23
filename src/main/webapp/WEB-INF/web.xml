@@ -19,7 +19,7 @@
         </init-param>
         <init-param>
             <param-name>serverName</param-name>
-            <param-value>https://64.131.111.61:8181/</param-value>
+            <param-value>https://64.131.111.27:8181/</param-value>
         </init-param>
         <init-param>
             <param-name>renew</param-name>
@@ -47,7 +47,7 @@
         </init-param>
         <init-param>
             <param-name>serverName</param-name>
-            <param-value>https://64.131.111.61:8181/</param-value>
+            <param-value>https://64.131.111.27:8181/</param-value>
         </init-param>
     </filter>
     <filter>
