@@ -93,6 +93,7 @@ public class JobController extends HttpServlet {
                 System.out.println("The principal is " + request.getUserPrincipal());
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
+                session.setAttribute("jobs", walrus.getObjects("sat-jobs"));
                 
                 if (request.getUserPrincipal() != null) {
                     AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();

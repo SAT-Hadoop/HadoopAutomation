@@ -39,6 +39,13 @@
                     <option value="32">32</option>
                 </select><br>
                 <label for="SelectJob">Select type of Job:</label>
+                <select name="optionjob">
+                    <c:forEach items="${jobs}" var="job">
+                        <option value="${job}">
+                            ${job}
+                        </option>
+                    </c:forEach>
+                </select>
                 <select class="form-control" name="optionjob">
                     <option value="wordcount">WordCount</option>
                     <option value="marketbasket">Marketbasket</option>
