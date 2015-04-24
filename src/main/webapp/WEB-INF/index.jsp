@@ -45,10 +45,6 @@
                             ${job}
                         </option>
                     </c:forEach>
-                </select>
-                <select class="form-control" name="optionjob">
-                    <option value="wordcount">WordCount</option>
-                    <option value="marketbasket">Marketbasket</option>
                 </select><br>
                 Available data sets: <select name="datasets">
                     <c:forEach items="${datasets}" var="file">

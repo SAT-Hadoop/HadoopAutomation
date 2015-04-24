@@ -5,6 +5,7 @@
  */
 package edu.iit.controller;
 
+import static edu.iit.credentials.Credentials.THEPATH;
 import edu.iit.doa.DOA;
 import edu.iit.model.User_Jobs;
 import edu.iit.s3bucket.S3Bucket;
@@ -147,7 +148,7 @@ public class JobController extends HttpServlet {
                 break;
 
             case "/app/downloadfile":
-                String filePath = "/tmp/" + request.getParameter("filetodownload");
+                String filePath = THEPATH + request.getParameter("filetodownload");
                 walrus.downloadObject("sat-hadoop", request.getParameter("filetodownload"));
                 File downloadFile = new File(filePath);
                 FileInputStream inStream = new FileInputStream(downloadFile);
@@ -233,7 +234,7 @@ public class JobController extends HttpServlet {
                     }
 
                     fileName = fileName.replaceAll("\\s", "");
-                    File file = new File("/tmp/" + fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
+                    File file = new File(THEPATH + fileName); // Or File#createTempFile() if you want to autogenerate an unique name.
 
                     try {
                         InputStream input = part.getInputStream();
