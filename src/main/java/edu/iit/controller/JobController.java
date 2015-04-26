@@ -151,6 +151,11 @@ public class JobController extends HttpServlet {
                 String filePath = THEPATH + request.getParameter("filetodownload");
                 walrus.downloadObject("sat-hadoop", request.getParameter("filetodownload"));
                 File downloadFile = new File(filePath);
+                if (!downloadFile.exists())
+                {
+                    session.setAttribute("message", "There was an issue in downloading your file");
+                    break;
+                }
                 FileInputStream inStream = new FileInputStream(downloadFile);
 
                 // if you want to use a relative path to context root:
