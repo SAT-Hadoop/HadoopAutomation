@@ -65,9 +65,7 @@
                 </select>
                 <input type="submit" value="Download">
             </form>
-            
-        </div>
-                <br><hr> <p> Use the form below to submit jobs </p>
+                                <br><hr> <p> Use the form below to submit jobs </p>
 <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
 
                 <!--<div class="form-group">
@@ -99,6 +97,9 @@
                 </select>
                 <button type="submit">Submit</button>
             </form>
+            
+        </div>
+
 
 
         <script src="/js/filedrag.js"></script>
