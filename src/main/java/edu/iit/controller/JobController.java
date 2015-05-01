@@ -116,10 +116,13 @@ public class JobController extends HttpServlet {
                                 if (attributeName.equals("member")){
                                     List values = (List) attributeValue;
                                     for (int i=0;i<values.size();i++){
-                                        if (((String)values.get(i)).contains("Employees"))
-                                            session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
                                         if (((String)values.get(i)).contains("Students"))
                                            session.setAttribute("emailid", request.getUserPrincipal()+"@hawk.iit.edu");
+                                        else {
+                                            if (((String)values.get(i)).contains("Employees"))
+                                               session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
+                                        }
+                                        
                                     }
                                     /*if (attributeValue.contains("Employees")){
                                         session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
