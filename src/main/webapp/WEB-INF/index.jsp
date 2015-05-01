@@ -24,38 +24,7 @@
             <p><b>Click here to Logout </b> <a href="https://my107.iit.edu/cas/logout"> Logout!!</a></p>
             <h2> Welcome to SAT Hadoop Cluster </h2><hr>
             <p> <c:out value="${message}"/></p>
-            <form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
-
-                <!--<div class="form-group">
-                    <label for="email">Email address:</label>
-                    <input type="email" name="email" class="form-control" id="email"/>
-                </div>-->
-                <label for="SelectNodes">Select Number of Nodes:</label>
-                <select class="form-control" name="optionnode">
-                    <option value="2">2</option>
-                    <option value="4">4</option>
-                    <option value="8">8</option>
-                    <option value="16">16</option>
-                    <option value="32">32</option>
-                </select><br>
-                <label for="SelectJob">Select type of Job:</label>
-                <select name="optionjob">
-                    <c:forEach items="${jobs}" var="job">
-                        <option value="${job}">
-                            ${job}
-                        </option>
-                    </c:forEach>
-                </select><br>
-                Available data sets: <select name="datasets">
-                    <c:forEach items="${datasets}" var="file">
-                        <option value="${file}">
-                            ${file}
-                        </option>
-                    </c:forEach>
-                </select>
-                <button type="submit">Submit</button>
-            </form>
-
+            
             <hr>
             <p> Use the form to upload new files </p>
             <form id="upload" action="${pageContext.request.contextPath}/app/uploadfile" method="POST" enctype="multipart/form-data">
@@ -98,7 +67,38 @@
             </form>
             
         </div>
+                <br><hr> <p> Use the form below to submit jobs </p>
+<form id="upload" action="${pageContext.request.contextPath}/app/submitjob" method="POST">
 
+                <!--<div class="form-group">
+                    <label for="email">Email address:</label>
+                    <input type="email" name="email" class="form-control" id="email"/>
+                </div>-->
+                <label for="SelectNodes">Select Number of Nodes:</label>
+                <select class="form-control" name="optionnode">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="16">16</option>
+                    <option value="32">32</option>
+                </select><br>
+                <label for="SelectJob">Select type of Job:</label>
+                <select name="optionjob">
+                    <c:forEach items="${jobs}" var="job">
+                        <option value="${job}">
+                            ${job}
+                        </option>
+                    </c:forEach>
+                </select><br>
+                Available data sets: <select name="datasets">
+                    <c:forEach items="${datasets}" var="file">
+                        <option value="${file}">
+                            ${file}
+                        </option>
+                    </c:forEach>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
 
 
         <script src="/js/filedrag.js"></script>
