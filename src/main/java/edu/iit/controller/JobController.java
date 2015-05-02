@@ -110,18 +110,23 @@ public class JobController extends HttpServlet {
 
                                 String attributeName = (String) attributeNames.next();
                                 final Object attributeValue = attributes.get(attributeName);
-                                if (attributeName.equals("email")){
+                                /*if (attributeName.equals("email")){
                                     session.setAttribute("emailid", attributeValue);
-                                }
+                                }o*/ 
+                                boolean allset = false;
                                 if (attributeName.equals("member")){
                                     List values = (List) attributeValue;
                                     for (int i=0;i<values.size();i++){
-                                        if (((String)values.get(i)).contains("Students"))
-                                           session.setAttribute("emailid", request.getUserPrincipal()+"@hawk.iit.edu");
-                                        /*else {
-                                            if (((String)values.get(i)).contains("Employees"))
+                                        if (((String)values.get(i)).contains("Students")){
+                                           session.setAttribute("emailid", request.getUserPrincipal()+"@hawk.iit.edu"); 
+                                           allset = true;
+                                        }
+                                           
+                                        
+                                        
+                                            if (((String)values.get(i)).contains("Employees") && !allset)
                                                session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
-                                        }*/
+                                        
                                         
                                     }
                                     /*if (attributeValue.contains("Employees")){
