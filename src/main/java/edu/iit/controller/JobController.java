@@ -95,7 +95,7 @@ public class JobController extends HttpServlet {
                 System.out.println("awesome sai" + walrus.getObjects("sat-hadoop").toString());
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 session.setAttribute("jobs", walrus.getObjects("sat-jobs"));
-                
+
                 if (request.getUserPrincipal() != null) {
                     AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
 
@@ -111,32 +111,31 @@ public class JobController extends HttpServlet {
                                 String attributeName = (String) attributeNames.next();
                                 final Object attributeValue = attributes.get(attributeName);
                                 /*if (attributeName.equals("email")){
-                                    session.setAttribute("emailid", attributeValue);
-                                }o*/ 
+                                 session.setAttribute("emailid", attributeValue);
+                                 }o*/
                                 boolean allset = false;
-                                if (attributeName.equals("member")){
-                                    List values = (List) attributeValue;
-                                    for (int i=0;i<values.size();i++){
-                                        if (((String)values.get(i)).contains("Students")){
-                                           session.setAttribute("emailid", request.getUserPrincipal()+"@hawk.iit.edu"); 
-                                           allset = true;
+                                try {
+                                    if (attributeName.equals("member")) {
+                                        List values = (List) attributeValue;
+                                        for (int i = 0; i < values.size(); i++) {
+                                            if (((String) values.get(i)).contains("Students")) {
+                                                session.setAttribute("emailid", request.getUserPrincipal() + "@hawk.iit.edu");
+                                                allset = true;
+                                            }
+
+                                            if (((String) values.get(i)).contains("Employees") && !allset) {
+                                                session.setAttribute("emailid", request.getUserPrincipal() + "@iit.edu");
+                                            }
+
                                         }
-                                           
-                                        
-                                        
-                                            if (((String)values.get(i)).contains("Employees") && !allset)
-                                               session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
-                                        
-                                        
                                     }
-                                    /*if (attributeValue.contains("Employees")){
-                                        session.setAttribute("emailid", request.getUserPrincipal()+"@iit.edu");
-                                    }
-                                    if (((String)attributeValue).contains("Students")){
-                                        session.setAttribute("emailid", request.getUserPrincipal()+"@hawk.iit.edu");
-                                    }*/
                                 }
-                                
+                                catch(Exception e){
+                                    PrintWriter out = response.getWriter();
+                                    out.write("Issue with CAS, Please contact hajek@iit.edu");
+                                    break;
+                                }
+
                                 System.out.println(attributeName + " " + attributeValue);
 
                             }
@@ -145,12 +144,12 @@ public class JobController extends HttpServlet {
                         }
                     }
                 }
-                if (session.getAttribute("email") == ""){
+                if (session.getAttribute("email") == "") {
                     PrintWriter out = response.getWriter();
                     out.write("CAS is down please contact the sys admin");
                     break;
                 }
-                        
+
                 request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 //response.sendRedirect(request.getContextPath() + "/index.jsp");
                 break;
@@ -159,8 +158,7 @@ public class JobController extends HttpServlet {
                 String filePath = THEPATH + request.getParameter("filetodownload");
                 walrus.downloadObject("sat-hadoop", request.getParameter("filetodownload"));
                 File downloadFile = new File(filePath);
-                if (!downloadFile.exists())
-                {
+                if (!downloadFile.exists()) {
                     session.setAttribute("message", "There was an issue in downloading your file");
                     break;
                 }
