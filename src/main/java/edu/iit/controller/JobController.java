@@ -8,6 +8,7 @@ package edu.iit.controller;
 import static edu.iit.credentials.Credentials.THEPATH;
 import edu.iit.doa.DOA;
 import edu.iit.model.User_Jobs;
+import edu.iit.rabbitmq.Send;
 import edu.iit.s3bucket.S3Bucket;
 import edu.iit.scheduler.Scheduler;
 import edu.iit.sqs.SendQueue;
@@ -25,6 +26,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -290,8 +293,19 @@ public class JobController extends HttpServlet {
                 userjob.setJobid(randomId);
                 System.out.println(userjob.toString());
                 doa.addJob(userjob);
-                SendQueue sendqueue = new SendQueue();
+                Send sendqueue = new Send();
+        {
+            try {
                 sendqueue.sendMessage(randomId);
+                /*SendQueue sendqueue = new SendQueue();
+                sendqueue.sendMessage(randomId);*/
+            } catch (Exception ex) {
+                System.out.println("Could not send message");
+                ex.printStackTrace();
+                message = "could not submit job, please try later";
+                session.setAttribute("message", message);
+            }
+        }
 
                 request.getSession().setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 //request.setAttribute("message", "Your Job is submitted, you will be emailed once completed");
@@ -307,6 +321,7 @@ public class JobController extends HttpServlet {
                 session.setAttribute("datasets", walrus.getObjects("sat-hadoop"));
                 request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
                 break;
+                
             default:
                 out.write("Page not found");
                 break;
